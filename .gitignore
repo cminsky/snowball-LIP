@@ -8,3 +8,6 @@ __pycache__
 .ipynb_checkpoints
 
 .DS_Store
+data/.DS_Store
+figs/.DS_Store
+figs/*.pages
