@@ -3,6 +3,6 @@
 *filtered*
 *kt_data*
 
-_pycache__/
+__pycache__
 
 .ipynb_checkpoints
