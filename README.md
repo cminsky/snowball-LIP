@@ -8,8 +8,6 @@ Ensure you have Python installed (>=3.8). Install required dependencies using:
 pip install -r requirements.txt
 ```
 
-Download the `kt_data.npy` asset and add it to the `data` folder.
-
 ### Code Structure
 
 - `dependencies.py` - Manages package loading
