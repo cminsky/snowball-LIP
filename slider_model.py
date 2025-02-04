@@ -46,7 +46,7 @@ with tab1:
     V = st.slider(label='Global CO$_2$ degassing (10$^{12}$ mol/yr)',value=V_default,
                     min_value=np.max([V95[0],0]),max_value=V95[1])
     
-    b = st.number_input(label='CO2 radiative forcing coefficient (W/m$^2$)',value=5.35)
+    b = st.number_input(label='CO$_2$ radiative forcing coefficient (W/m$^2$)',value=5.35)
 
 def make_slider(label,value,key,
                 unit_div=1,make_int=False,
