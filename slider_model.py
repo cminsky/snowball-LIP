@@ -12,7 +12,7 @@ st.set_page_config(layout="wide")
 ###  Climate response to Large Igneous Province weathering
 
 This carbon cycle model simulates the response of the global climate to the emplacement and subsequent silicate weathering of the Franklin Large Igneous Province (LIP).
-The model is described in C. Minsky, R. Wordsworth, F. A. Macdonald, and A. H. Knoll (in review) "Neoproterozoic Snowball Earth Initiation from Silicate Weathering of a Large Igneous Province"
+The model is described in C. Minsky, R. Wordsworth, F. A. Macdonald, and A. H. Knoll (in review) "Neoproterozoic Snowball Earth Initiation from Silicate Weathering of a Large Igneous Province."
 
 This GUI can be used to test which combinations of background climate and LIP characteristics cause initiation of a Snowball Earth transition.
 Use the sliders in each tab to modify the model input parameters.
@@ -147,3 +147,4 @@ def footer(text):
 
 """"""
 footer("Contact: Charlotte Minsky, cminsky@g.harvard.edu")
+footer("Source code: <a href='https://github.com/cminsky/snowball-LIP' style='color: grey;'>https://github.com/cminsky/snowball-LIP</a>")
