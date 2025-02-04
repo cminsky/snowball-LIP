@@ -37,7 +37,7 @@ with tab1:
 
     CO295 = sst.lognorm.interval(0.95,*CO2_fit)
     CO2_default = sst.lognorm.median(*CO2_fit)
-    CO2 = st.slider(label='pCO2 (ppm)',value=int(CO2_default),
+    CO2 = st.slider(label='pCO$_2$ (ppm)',value=int(CO2_default),
                     min_value=np.max([int(CO295[0]),0]),max_value=int(CO295[1]))
     N0 = N_pi*np.sqrt(CO2/ppm_pi)
 
