@@ -147,4 +147,4 @@ def footer(text):
 
 """"""
 footer("Contact: Charlotte Minsky, cminsky@g.harvard.edu")
-footer("Source code: <a href='https://github.com/cminsky/snowball-LIP' style='color: grey;'>https://github.com/cminsky/snowball-LIP</a>")
+footer("Source code: <a href='https://github.com/cminsky/snowball-LIP' style='color: grey;'>github.com/cminsky/snowball-LIP</a>")
