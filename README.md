@@ -1,5 +1,7 @@
 This repository contains scripts to run our model of the global carbon cycle and Large Igneous Province (LIP) emplacement and weathering. The model is described in C. Minsky, R. Wordsworth, F. A. Macdonald, and A. H. Knoll (in review) "Neoproterozoic Snowball Earth Initiation from Silicate Weathering of a Large Igneous Province". This code reproduces all figures in the main text and supplementary text of the paper As a matter of courtesy, we request that people using this code please cite Minsky et al. (in review).
 
+A graphical interface to the model is also available at [https://snowball-lip.streamlit.app/]{https://snowball-lip.streamlit.app/}
+
 ### Installation
 
 Ensure you have Python installed (>=3.8). Install required dependencies using:
