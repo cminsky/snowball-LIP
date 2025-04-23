@@ -72,9 +72,13 @@ def summary_stats(filename,
                   print_progress=True):
     
     with Dataset(filename, "a") as ncfile:
-        #if print_progress:
-            #print("Analyzing, creating summary statistics...")
-        stats_group = ncfile.createGroup("stats")
+        # if custom threshold temp, append threshold temp to stats group name
+        group_name = f"stats{int(threshold_temp)}" if threshold_temp != 280 else "stats"
+
+        if group_name in ncfile.groups:
+            stats_group = ncfile.groups[group_name]
+        else:
+            stats_group = ncfile.createGroup(group_name)
 
         # read in data
         T = ncfile.variables["temperature"][:]
@@ -90,7 +94,7 @@ def summary_stats(filename,
         # boolean flags for conditions
         early_index = (t >= min_time).argmax()
         late_index = (t >= max_time).argmax()
-
+        
         late_condition = (T[:, :late_index] < threshold_temp).any(axis=1)
         early_condition = (T[:, :early_index] < threshold_temp).any(axis=1)
 
@@ -110,7 +114,7 @@ def summary_stats(filename,
         
         if print_progress:
             print(f"Average cooling: {np.nanmean(min_normed_temp_var[:]):0.2f} K")
-
+            
         # save flags
         late_flag_var = stats_group.createVariable("late_flag", "i1", ("iterations",))
         late_flag_var[:] = late_condition.astype("i1")
@@ -130,9 +134,9 @@ def summary_stats(filename,
         # Save summary percentages
         iters = len(T)
         percentages = {
-            "late_flag_percentage": (late_condition.sum() / iters * 100),
-            "early_flag_percentage": (early_condition.sum() / iters * 100),
-            "snowball_flag_percentage": (snowball_condition.sum() / iters * 100),
+            "late_flag_percentage": (late_condition.sum() / len(T) * 100),
+            "early_flag_percentage": (early_condition.sum() / len(T) * 100),
+            "snowball_flag_percentage": (snowball_condition.sum() / len(T) * 100),
         }
 
         for name, value in percentages.items():
@@ -148,11 +152,14 @@ def summary_stats(filename,
             #print(f"Summary statistics added to {filename}")
             
 # read in summary stats
-def read_summary_stats(filename):
+def read_summary_stats(filename,
+                       threshold_temp=280):
     with Dataset(filename, "r") as ncfile:
-        print(f"Reading summary statistics from {filename}")
+        group_name = f"stats{int(threshold_temp)}" if threshold_temp != 280 else "stats"
         
-        stats_group = ncfile.groups["stats"]
+        print(f"Reading summary statistics from {filename} for threshold temp {threshold_temp} K")
+        
+        stats_group = ncfile.groups[group_name]
         
         min_normed_temp = stats_group.variables["min_normed_temp"][...]
         late_flag_percentage = stats_group.variables["late_flag_percentage"][...]
