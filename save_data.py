@@ -69,6 +69,7 @@ def summary_stats(filename,
                   threshold_temp=280,  # temperature threshold [K]
                   min_time=0.9,  # min time to snowball [Myr]
                   max_time=2.15,  # max time to snowball [Myr]
+                  replace_stats=False,
                   verbose=True):
     
     with Dataset(filename, "a") as ncfile:
@@ -76,7 +77,13 @@ def summary_stats(filename,
         group_name = f"stats{int(threshold_temp)}" if threshold_temp != 280 else "stats"
 
         if group_name in ncfile.groups:
-            stats_group = ncfile.groups[group_name]
+            if replace_stats:
+                if verbose:
+                    print(f"Stats group for {threshold_temp} K already exists; deleting and remaking")
+                del ncfile.groups[group_name]
+            else:
+                print(f"Aborting; stats already run for {threshold_temp} K")
+            return None
         else:
             stats_group = ncfile.createGroup(group_name)
 
@@ -153,7 +160,8 @@ def summary_stats(filename,
             
 # read in summary stats
 def read_summary_stats(filename,
-                       threshold_temp=280,  # temperature threshold [K]):
+                       threshold_temp=280,  # temperature threshold [K]
+                       ):
     with Dataset(filename, "r") as ncfile:
         group_name = f"stats{int(threshold_temp)}" if threshold_temp != 280 else "stats"
         
@@ -170,8 +178,7 @@ def read_summary_stats(filename,
         print(f"Late flag percentage: {late_flag_percentage:.2f}%")
         print(f"Early flag percentage: {early_flag_percentage:.2f}%")
         print(f"Snowball flag percentage: {snowball_flag_percentage:.2f}%")
-        
-        
+                       
 # faster function for just computing percentages
 def quick_summary_stats(filename,
                         threshold_temp=280,  # temperature threshold [K]
