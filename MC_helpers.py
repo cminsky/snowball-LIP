@@ -59,7 +59,7 @@ def run_single_iteration(i,model_array,x_array,T0):
     T = T0[i] + x(N, **x_array[i])
     return t, T
 
-def run_model_iters_parallel(params, print_progress=True):
+def run_model_iters_parallel(params, verbose=True):
     # slice the dictionary into model function vs. x function and rearrange
     model_params, x_params = slice_params(params)
     model_array, x_array = dict_array(model_params), dict_array(x_params)
@@ -68,7 +68,7 @@ def run_model_iters_parallel(params, print_progress=True):
     iters = len(model_array)
     T0 = params['T0']
 
-    if print_progress:
+    if verbose:
         # set up progress tracking
         if iters < 500:
             print_interval = 10
@@ -100,7 +100,7 @@ def run_model_iters_parallel(params, print_progress=True):
                 results.append((iteration_index, *result))  # include iteration index to sort later
 
                 # print progress every time interval
-                if print_progress:
+                if verbose:
                     current_time = time.time()
                     if current_time >= next_print_time:
                         elapsed = current_time - start_time
@@ -112,7 +112,7 @@ def run_model_iters_parallel(params, print_progress=True):
                 print(f"Iteration {iteration_index} generated an exception: {e}")
 
     # ending print statements
-    if print_progress:
+    if verbose:
         current_time = time.time()
         elapsed = current_time - start_time
         end_time_str = datetime.fromtimestamp(current_time).strftime('%I:%M %p')

@@ -2,11 +2,11 @@ from dependencies import *
 from defaults import *
 
 # save data from an MC run into a NetCDF file
-def save_data(filename,t,T,params,description=None,print_progress=False,param_metadata=param_metadata):
+def save_data(filename,t,T,params,description=None,verbose=False,param_metadata=param_metadata):
     with Dataset(filename, "w", format="NETCDF4") as ncfile:
         
         ## basic setup  and saving results
-        if print_progress:
+        if verbose:
             print("Saving results...")
         
         # add comments
@@ -29,7 +29,7 @@ def save_data(filename,t,T,params,description=None,print_progress=False,param_me
         temp_var.units = "K"
 
         ## saving parameters
-        if print_progress:
+        if verbose:
             print("Saving parameters...")
             
         params_dim = ncfile.createDimension("parameters", len(params.keys()))
@@ -69,7 +69,7 @@ def summary_stats(filename,
                   threshold_temp=280,  # temperature threshold [K]
                   min_time=0.9,  # min time to snowball [Myr]
                   max_time=2.15,  # max time to snowball [Myr]
-                  print_progress=True):
+                  verbose=True):
     
     with Dataset(filename, "a") as ncfile:
         # if custom threshold temp, append threshold temp to stats group name
@@ -112,7 +112,7 @@ def summary_stats(filename,
         min_normed_temp_var.units = "K"
         min_normed_temp_var.long_name = f"Min normalized temp during model runs before {max_time} Myr"
         
-        if print_progress:
+        if verbose:
             print(f"Average cooling: {np.nanmean(min_normed_temp_var[:]):0.2f} K")
             
         # save flags
@@ -145,7 +145,7 @@ def summary_stats(filename,
             var.long_name = f"Percentage of iterations for {name.replace('_', ' ')}"
             var.units = "%"
 
-        if print_progress:
+        if verbose:
             for name, value in percentages.items():
                 print(f"{name.replace('_', ' ').capitalize()}: {value:.2f}%")
 
