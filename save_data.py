@@ -153,7 +153,7 @@ def summary_stats(filename,
             
 # read in summary stats
 def read_summary_stats(filename,
-                       threshold_temp=280):
+                       threshold_temp=280,  # temperature threshold [K]):
     with Dataset(filename, "r") as ncfile:
         group_name = f"stats{int(threshold_temp)}" if threshold_temp != 280 else "stats"
         
@@ -170,3 +170,38 @@ def read_summary_stats(filename,
         print(f"Late flag percentage: {late_flag_percentage:.2f}%")
         print(f"Early flag percentage: {early_flag_percentage:.2f}%")
         print(f"Snowball flag percentage: {snowball_flag_percentage:.2f}%")
+        
+        
+# faster function for just computing percentages
+def quick_summary_stats(filename,
+                        threshold_temp=280,  # temperature threshold [K]
+                        min_time=0.9,  # min time to snowball [Myr]
+                        max_time=2.15,  # max time to snowball [Myr]
+                        verbose=True):
+    with Dataset(filename, "r") as ncfile:
+        # read in data
+        T = ncfile.variables["temperature"][:]
+        t = ncfile.variables["time"][:]
+
+        # time indices
+        early_index = (t >= min_time).argmax()
+        late_index = (t >= max_time).argmax()
+
+        # boolean flags for conditions
+        late_condition = (T[:, :late_index] < threshold_temp).any(axis=1)
+        early_condition = (T[:, :early_index] < threshold_temp).any(axis=1)
+        snowball_condition = late_condition & ~early_condition
+
+        # compute percentages
+        iters = len(T)
+        percentages = {
+            "late_flag_percentage": (late_condition.sum() / iters * 100),
+            "early_flag_percentage": (early_condition.sum() / iters * 100),
+            "snowball_flag_percentage": (snowball_condition.sum() / iters * 100),
+        }
+
+        if verbose:
+            for name, value in percentages.items():
+                print(f"{name.replace('_', ' ').capitalize()}: {value:.2f}%")
+                       
+        return percentages
