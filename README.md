@@ -38,6 +38,7 @@ Due to data storage and efficiency constraints, we have not uploaded the netCDF 
 - `3.3_CAMP_analyze.ipynb` - Analyzes the CAMP model runs, creates Fig. 7
 - `3.4_geologic_generate.ipynb` - Runs the model over geologic time and Phanerozoic time
 - `3.4_geologic_analyze.ipynb` - Creates Fig. 8
+- `3.5_threshold_temp.ipynb` - Allows for Snowball initiation threshold temperature as a free parameter and creates Fig. 9
 - `A.1_analytic.ipynb` - Plots the analytic solution derived in the appendix, creates Fig. A1
 
 ### File Structure
@@ -68,7 +69,6 @@ After running summary_stats():
 │   └── snowball_flag_percentage
     
 After running summary_stats() with a custom temperature threshold, in this example 260 K:
-    
 ├── ... (same as above)
 ├── stats/
 │   └── ... (results for threshold = 280)
